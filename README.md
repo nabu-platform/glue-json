@@ -35,7 +35,7 @@ Which would output:
 </anonymous>
 ```
 
-And if you have the glue types plugin you have native access to the parsed JSON object (and XML object):
+And if you have the type support you have native access to the parsed JSON object (and XML object):
 
 ```python
 echo("Root: " + object/name)
