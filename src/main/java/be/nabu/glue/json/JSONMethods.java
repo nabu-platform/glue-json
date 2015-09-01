@@ -8,16 +8,16 @@ import java.text.ParseException;
 import be.nabu.glue.ScriptRuntime;
 import be.nabu.glue.impl.methods.ScriptMethods;
 import be.nabu.libs.evaluator.annotations.MethodProviderClass;
+import be.nabu.libs.types.ComplexContentWrapperFactory;
 import be.nabu.libs.types.api.ComplexContent;
 import be.nabu.libs.types.binding.api.Window;
 import be.nabu.libs.types.binding.json.JSONBinding;
-import be.nabu.libs.types.java.BeanInstance;
 import be.nabu.libs.types.map.MapTypeGenerator;
 
 @MethodProviderClass(namespace = "json")
 public class JSONMethods {
 	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "unchecked" })
 	public static String stringify(Object object) throws IOException {
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		ComplexContent content;
@@ -25,7 +25,7 @@ public class JSONMethods {
 			content = (ComplexContent) object;
 		}
 		else {
-			content = new BeanInstance(object);
+			content = ComplexContentWrapperFactory.getInstance().getWrapper().wrap(object);
 		}
 		JSONBinding binding = new JSONBinding(content.getType(), ScriptRuntime.getRuntime().getScript().getCharset());
 		binding.marshal(output, content);
