@@ -42,6 +42,7 @@ public class JSONMethods {
 		binding.setAllowDynamicElements(true);
 		binding.setAddDynamicElementDefinitions(true);
 		binding.setIgnoreRootIfArrayWrapper(true);
+		binding.setCamelCaseDashes(true);
 		String string = ScriptMethods.string(object, null);
 		return binding.unmarshal(new ByteArrayInputStream(string.getBytes(ScriptRuntime.getRuntime().getScript().getCharset())), new Window[0]);
 	}
