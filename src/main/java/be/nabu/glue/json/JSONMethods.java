@@ -40,7 +40,7 @@ public class JSONMethods {
 		JSONBinding binding = new JSONBinding(new MapTypeGenerator(), ScriptRuntime.getRuntime().getScript().getCharset());
 		binding.setAllowDynamicElements(true);
 		binding.setAddDynamicElementDefinitions(true);
-		String string = ScriptMethods.string(object);
+		String string = ScriptMethods.string(object, null);
 		return binding.unmarshal(new ByteArrayInputStream(string.getBytes(ScriptRuntime.getRuntime().getScript().getCharset())), new Window[0]);
 	}
 	
