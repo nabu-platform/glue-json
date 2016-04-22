@@ -31,6 +31,7 @@ public class JSONMethods {
 			content = ComplexContentWrapperFactory.getInstance().getWrapper().wrap(object);
 		}
 		JSONBinding binding = new JSONBinding(content.getType(), ScriptRuntime.getRuntime().getScript().getCharset());
+		binding.setIgnoreRootIfArrayWrapper(true);
 		binding.marshal(output, content);
 		return new String(output.toByteArray(), ScriptRuntime.getRuntime().getScript().getCharset());
 	}
@@ -40,6 +41,7 @@ public class JSONMethods {
 		JSONBinding binding = new JSONBinding(new MapTypeGenerator(), ScriptRuntime.getRuntime().getScript().getCharset());
 		binding.setAllowDynamicElements(true);
 		binding.setAddDynamicElementDefinitions(true);
+		binding.setIgnoreRootIfArrayWrapper(true);
 		String string = ScriptMethods.string(object, null);
 		return binding.unmarshal(new ByteArrayInputStream(string.getBytes(ScriptRuntime.getRuntime().getScript().getCharset())), new Window[0]);
 	}
