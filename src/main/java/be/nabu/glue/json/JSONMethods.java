@@ -43,6 +43,7 @@ public class JSONMethods {
 		binding.setAddDynamicElementDefinitions(true);
 		binding.setIgnoreRootIfArrayWrapper(true);
 		binding.setCamelCaseDashes(true);
+		binding.setParseNumbers(true);
 		String string = ScriptMethods.string(object, null);
 		return binding.unmarshal(new ByteArrayInputStream(string.getBytes(ScriptRuntime.getRuntime().getScript().getCharset())), new Window[0]);
 	}
