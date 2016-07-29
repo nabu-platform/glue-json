@@ -22,6 +22,9 @@ public class JSONMethods {
 	@GlueMethod(description = "Serializes an object as JSON", returns = "The json string")
 	@SuppressWarnings({ "unchecked" })
 	public static String stringify(@GlueParam(name = "object") Object object) throws IOException {
+		if (object == null) {
+			return null;
+		}
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		ComplexContent content;
 		if (object instanceof ComplexContent) {
@@ -38,6 +41,9 @@ public class JSONMethods {
 
 	@GlueMethod(description = "Deserializes a JSON string as an object", returns = "The object")
 	public static Object objectify(@GlueParam(name = "json") Object object) throws IOException, ParseException {
+		if (object == null) {
+			return null;
+		}
 		JSONBinding binding = new JSONBinding(new MapTypeGenerator(), ScriptRuntime.getRuntime().getScript().getCharset());
 		binding.setAllowDynamicElements(true);
 		binding.setAddDynamicElementDefinitions(true);
