@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Arrays;
 
 import be.nabu.glue.ScriptRuntime;
 import be.nabu.glue.annotations.GlueMethod;
@@ -24,6 +25,9 @@ public class JSONMethods {
 	public static String stringify(@GlueParam(name = "object") Object object) throws IOException {
 		if (object == null) {
 			return null;
+		}
+		else if (object instanceof Object[]) {
+			object = Arrays.asList((Object[]) object);
 		}
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		ComplexContent content;
