@@ -5,11 +5,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import be.nabu.glue.ScriptRuntime;
 import be.nabu.glue.annotations.GlueMethod;
 import be.nabu.glue.annotations.GlueParam;
 import be.nabu.glue.impl.methods.ScriptMethods;
+import be.nabu.glue.impl.methods.v2.SeriesMethods;
 import be.nabu.libs.evaluator.annotations.MethodProviderClass;
 import be.nabu.libs.types.ComplexContentWrapperFactory;
 import be.nabu.libs.types.api.ComplexContent;
@@ -28,6 +32,12 @@ public class JSONMethods {
 		}
 		else if (object instanceof Object[]) {
 			object = Arrays.asList((Object[]) object);
+		}
+		if (object instanceof Iterable) {
+			List<?> resolved = SeriesMethods.resolve((Iterable<?>) object);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("list", resolved);
+			object = map;
 		}
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		ComplexContent content;
