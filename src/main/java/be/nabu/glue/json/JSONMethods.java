@@ -26,7 +26,7 @@ public class JSONMethods {
 	
 	@GlueMethod(description = "Serializes an object as JSON", returns = "The json string")
 	@SuppressWarnings({ "unchecked" })
-	public static String stringify(@GlueParam(name = "object") Object object) throws IOException {
+	public static String stringify(@GlueParam(name = "object") Object object, Boolean prettyPrint) throws IOException {
 		if (object == null) {
 			return null;
 		}
@@ -49,6 +49,9 @@ public class JSONMethods {
 		}
 		JSONBinding binding = new JSONBinding(content.getType(), ScriptRuntime.getRuntime().getScript().getCharset());
 		binding.setIgnoreRootIfArrayWrapper(true);
+		if (prettyPrint != null) {
+			binding.setPrettyPrint(prettyPrint);
+		}
 		binding.marshal(output, content);
 		return new String(output.toByteArray(), ScriptRuntime.getRuntime().getScript().getCharset());
 	}
