@@ -26,7 +26,7 @@ public class JSONMethods {
 	
 	@GlueMethod(description = "Serializes an object as JSON", returns = "The json string")
 	@SuppressWarnings({ "unchecked" })
-	public static String stringify(@GlueParam(name = "object") Object object, Boolean prettyPrint) throws IOException {
+	public static String stringify(@GlueParam(name = "object") Object object, @GlueParam(name = "pretty") Boolean prettyPrint, @GlueParam(name = "raw") Boolean allowRaw) throws IOException {
 		if (object == null) {
 			return null;
 		}
@@ -48,6 +48,9 @@ public class JSONMethods {
 			content = ComplexContentWrapperFactory.getInstance().getWrapper().wrap(object);
 		}
 		JSONBinding binding = new JSONBinding(content.getType(), ScriptRuntime.getRuntime().getScript().getCharset());
+		if (allowRaw != null) {
+			binding.setAllowRaw(allowRaw);
+		}
 		binding.setIgnoreRootIfArrayWrapper(true);
 		if (prettyPrint != null) {
 			binding.setPrettyPrint(prettyPrint);
@@ -57,7 +60,7 @@ public class JSONMethods {
 	}
 
 	@GlueMethod(description = "Deserializes a JSON string as an object", returns = "The object")
-	public static Object objectify(@GlueParam(name = "json") Object object, Boolean allowRaw) throws IOException, ParseException {
+	public static Object objectify(@GlueParam(name = "json") Object object, @GlueParam(name = "raw") Boolean allowRaw, @GlueParam(name = "dashes") Boolean allowDashes) throws IOException, ParseException {
 		if (object == null) {
 			return null;
 		}
@@ -65,7 +68,7 @@ public class JSONMethods {
 		binding.setAllowDynamicElements(true);
 		binding.setAddDynamicElementDefinitions(true);
 		binding.setIgnoreRootIfArrayWrapper(true);
-		binding.setCamelCaseDashes(true);
+		binding.setCamelCaseDashes(allowDashes == null || !allowDashes);
 		binding.setParseNumbers(true);
 		if (allowRaw != null) {
 			binding.setAllowRaw(allowRaw);
