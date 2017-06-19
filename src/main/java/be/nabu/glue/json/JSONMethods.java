@@ -64,7 +64,7 @@ public class JSONMethods {
 		if (object == null) {
 			return null;
 		}
-		JSONBinding binding = new JSONBinding(new MapTypeGenerator(), ScriptRuntime.getRuntime().getScript().getCharset());
+		JSONBinding binding = new JSONBinding(new MapTypeGenerator(allowRaw != null && allowRaw), ScriptRuntime.getRuntime().getScript().getCharset());
 		binding.setAllowDynamicElements(true);
 		binding.setAddDynamicElementDefinitions(true);
 		binding.setIgnoreRootIfArrayWrapper(true);
