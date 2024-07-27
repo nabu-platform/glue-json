@@ -60,7 +60,7 @@ public class JSONMethods {
 	}
 
 	@GlueMethod(description = "Deserializes a JSON string as an object", returns = "The object")
-	public static Object objectify(@GlueParam(name = "json") Object object, @GlueParam(name = "raw") Boolean allowRaw, @GlueParam(name = "dashes") Boolean allowDashes) throws IOException, ParseException {
+	public static Object objectify(@GlueParam(name = "json") Object object, @GlueParam(name = "raw") Boolean allowRaw, @GlueParam(name = "dashes") Boolean allowDashes, @GlueParam(name = "stringsOnly") Boolean stringsOnly) throws IOException, ParseException {
 		if (object == null) {
 			return null;
 		}
@@ -72,6 +72,9 @@ public class JSONMethods {
 		binding.setParseNumbers(true);
 		if (allowRaw != null) {
 			binding.setAllowRaw(allowRaw);
+		}
+		if (stringsOnly != null) {
+			binding.setAddDynamicStringsOnly(stringsOnly);
 		}
 		String string = ScriptMethods.string(object, null);
 		return binding.unmarshal(new ByteArrayInputStream(string.getBytes(ScriptRuntime.getRuntime().getScript().getCharset())), new Window[0]);
