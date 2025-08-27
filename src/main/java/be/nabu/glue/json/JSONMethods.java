@@ -36,6 +36,7 @@ import be.nabu.libs.types.ComplexContentWrapperFactory;
 import be.nabu.libs.types.api.ComplexContent;
 import be.nabu.libs.types.binding.api.Window;
 import be.nabu.libs.types.binding.json.JSONBinding;
+import be.nabu.libs.types.map.MapContent;
 import be.nabu.libs.types.map.MapTypeGenerator;
 
 @MethodProviderClass(namespace = "json")
@@ -43,7 +44,7 @@ public class JSONMethods {
 	
 	@GlueMethod(description = "Serializes an object as JSON", returns = "The json string")
 	@SuppressWarnings({ "unchecked" })
-	public static String stringify(@GlueParam(name = "object") Object object, @GlueParam(name = "pretty") Boolean prettyPrint, @GlueParam(name = "raw") Boolean allowRaw) throws IOException {
+	public static String stringify(@GlueParam(name = "object") Object object, @GlueParam(name = "pretty") Boolean prettyPrint, @GlueParam(name = "raw") Boolean allowRaw, @GlueParam(name = "full") Boolean full, @GlueParam(name = "forceRoot") Boolean forceRoot) throws IOException {
 		if (object == null) {
 			return null;
 		}
@@ -68,9 +69,12 @@ public class JSONMethods {
 		if (allowRaw != null) {
 			binding.setAllowRaw(allowRaw);
 		}
-		binding.setIgnoreRootIfArrayWrapper(true);
+		binding.setIgnoreRootIfArrayWrapper(forceRoot == null || forceRoot == false);
 		if (prettyPrint != null) {
 			binding.setPrettyPrint(prettyPrint);
+		}
+		if (full != null && full) {
+			binding.setMarshalExplicitNullValues(true);
 		}
 		binding.marshal(output, content);
 		return new String(output.toByteArray(), ScriptRuntime.getRuntime().getScript().getCharset());
@@ -81,7 +85,9 @@ public class JSONMethods {
 		if (object == null) {
 			return null;
 		}
-		JSONBinding binding = new JSONBinding(new MapTypeGenerator(allowRaw != null && allowRaw), ScriptRuntime.getRuntime().getScript().getCharset());
+		MapTypeGenerator complexTypeGenerator = new MapTypeGenerator(allowRaw != null && allowRaw);
+		complexTypeGenerator.setWrapMaps(true);
+		JSONBinding binding = new JSONBinding(complexTypeGenerator, ScriptRuntime.getRuntime().getScript().getCharset());
 		binding.setAllowDynamicElements(true);
 		binding.setAddDynamicElementDefinitions(true);
 		binding.setIgnoreRootIfArrayWrapper(true);
