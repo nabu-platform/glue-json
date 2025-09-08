@@ -33,6 +33,7 @@ import be.nabu.glue.api.Script;
 import be.nabu.glue.api.runs.GlueAttachment;
 import be.nabu.glue.api.runs.GlueValidation;
 import be.nabu.glue.impl.formatted.FormattedValidation;
+import be.nabu.libs.types.api.ModifiableComplexType;
 import be.nabu.libs.types.binding.json.JSONBinding;
 import be.nabu.libs.types.map.MapContent;
 import be.nabu.libs.types.map.MapContentWrapper;
@@ -95,7 +96,7 @@ public class JSONOutputFormatter implements OutputFormatter {
 			}
 			
 			current.put("stopped", new Date());
-			MapType type = MapContentWrapper.buildFromContent(current);
+			ModifiableComplexType type = MapContentWrapper.buildFromContent(current);
 			JSONBinding binding = new JSONBinding(type, Charset.forName("UTF-8"));
 			binding.setPrettyPrint(true);
 			ByteArrayOutputStream output = new ByteArrayOutputStream();
