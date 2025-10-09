@@ -36,7 +36,6 @@ import be.nabu.libs.types.ComplexContentWrapperFactory;
 import be.nabu.libs.types.api.ComplexContent;
 import be.nabu.libs.types.binding.api.Window;
 import be.nabu.libs.types.binding.json.JSONBinding;
-import be.nabu.libs.types.map.MapContent;
 import be.nabu.libs.types.map.MapTypeGenerator;
 
 @MethodProviderClass(namespace = "json")
