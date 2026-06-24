@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>be.nabu.glue</groupId>
 	<artifactId>glue-json</artifactId>
-	<version>1.4</version>
+	<version>1.5-SNAPSHOT</version>
 	<name>glue-json</name>
 	<parent>
 		<groupId>be.nabu</groupId>
