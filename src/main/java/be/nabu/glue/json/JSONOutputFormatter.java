@@ -167,6 +167,18 @@ public class JSONOutputFormatter implements OutputFormatter {
 	}
 
 	@Override
+	public void error(Executor executor, Exception exception) {
+		if (executor.getContext() != null && executor.getContext().getAnnotations() != null && executor.getContext().getAnnotations().get("id") != null) {
+			Map<String, Object> step = currentStep.pop();
+			step.put("stopped", new Date());
+			step.put("error", exception.toString());
+		}
+		if (parent != null) {
+			parent.error(executor, exception);
+		}
+	}
+
+	@Override
 	public void validated(GlueValidation...validations) {
 //		Map<String, Object> target;
 //		if (!currentStep.isEmpty()) {
